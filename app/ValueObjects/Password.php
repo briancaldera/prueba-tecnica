@@ -1,5 +1,9 @@
 <?php
 
+namespace App\ValueObjects;
+
+use \InvalidArgumentException;
+
 class Password
 {
     public static const string PASSWORD_ALGO = PASSWORD_BCRYPT;

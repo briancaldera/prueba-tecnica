@@ -4,43 +4,28 @@ namespace App\ValueObjects;
 
 class Name
 {
-    public readonly string $firstName;
-    public readonly string $lastName;
-    public function __construct(string $firstName, string $lastName)
+    public readonly string $name;
+    public function __construct(string $name)
     {
 
-        $firstName = trim($firstName);
-        $lastName = trim($lastName);
+        $name = trim($name);
 
-        if ($firstName === "") {
-            throw new \InvalidArgumentException("First name cannot be empty");
+        if ($name === "") {
+            throw new \InvalidArgumentException("Name cannot be empty");
         }
 
-        if ($lastName === "") {
-            throw new \InvalidArgumentException("Last name cannot be empty");
+        if (strlen($name) > 255) {
+            throw new \InvalidArgumentException("Name cannot be longer than 255 characters");
         }
 
-        if (strlen($firstName) > 255) {
-            throw new \InvalidArgumentException("First name cannot be longer than 255 characters");
+        if (preg_match('/[^a-zA-Z]/', $name)) {
+            throw new \InvalidArgumentException("Name can only contain letters");
         }
 
-        if (strlen($lastName) > 255) {
-            throw new \InvalidArgumentException("Last name cannot be longer than 255 characters");
-        }
-
-        if (preg_match('/[^a-zA-Z]/', $firstName)) {
-            throw new \InvalidArgumentException("First name can only contain letters");
-        }
-
-        if (preg_match('/[^a-zA-Z]/', $lastName)) {
-            throw new \InvalidArgumentException("Last name can only contain letters");
-        }
-
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
+        $this->name = $name;
     }
 
     public function __tostring(): string {
-        return $this->firstName ." ". $this->lastName;
+        return $this->name;
     }
 }
