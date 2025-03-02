@@ -6,8 +6,8 @@ use \InvalidArgumentException;
 
 class Password
 {
-    public static const string PASSWORD_ALGO = PASSWORD_BCRYPT;
-    public static const int PASSWORD_BCRYPT_COST = 12;
+    public const string PASSWORD_ALGO = PASSWORD_BCRYPT;
+    public const int PASSWORD_BCRYPT_COST = 12;
 
     public readonly string $hash;
 
@@ -23,8 +23,12 @@ class Password
             throw new InvalidArgumentException("Password must be at least 12 characters long");
         }
 
-        if (strlen($password) > 255) {
-            throw new InvalidArgumentException("Password cannot be longer than 255 characters");
+        if (strlen($password) > 100) {
+            throw new InvalidArgumentException("Password cannot be longer than 100 characters");
+        }
+
+        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,100}$/', $password)) {
+            throw new InvalidArgumentException("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character");
         }
 
         // Usamos BCRYPT con 12 rounds de costo y salt generado automaticamente

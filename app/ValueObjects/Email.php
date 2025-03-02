@@ -8,7 +8,7 @@ class Email
 
     public function __construct(string $email)
     {
-        $this->email = trim($email);
+        $email = trim($email);
 
         self::validate($email);
 

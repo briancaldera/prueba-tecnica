@@ -14,8 +14,8 @@ class Name
             throw new \InvalidArgumentException("Name cannot be empty");
         }
 
-        if (strlen($name) > 255) {
-            throw new \InvalidArgumentException("Name cannot be longer than 255 characters");
+        if (strlen($name) > 50) {
+            throw new \InvalidArgumentException("Name cannot be longer than 50 characters");
         }
 
         if (preg_match('/[^a-zA-Z]/', $name)) {
