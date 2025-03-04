@@ -2,33 +2,35 @@
 
 namespace App\ValueObjects;
 
-use \InvalidArgumentException;
-
 class Password
 {
     public const string PASSWORD_ALGO = PASSWORD_BCRYPT;
     public const int PASSWORD_BCRYPT_COST = 12;
 
-    public readonly string $hash;
+    public private(set) readonly string $hash;
 
-    public function __construct(string $password)
+    private function __construct(string $hash) {
+        $this->hash = $hash;
+    }
+
+    public static function fromPassword(string $password): self
     {
         $password = trim($password);
 
         if ($password === "") {
-            throw new InvalidArgumentException("Password cannot be empty");
+            throw new \InvalidArgumentException("Password cannot be empty");
         }
 
         if (strlen($password) < 12) {
-            throw new InvalidArgumentException("Password must be at least 12 characters long");
+            throw new \InvalidArgumentException("Password must be at least 12 characters long");
         }
 
         if (strlen($password) > 100) {
-            throw new InvalidArgumentException("Password cannot be longer than 100 characters");
+            throw new \InvalidArgumentException("Password cannot be longer than 100 characters");
         }
 
         if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,100}$/', $password)) {
-            throw new InvalidArgumentException("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character");
+            throw new \InvalidArgumentException("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character");
         }
 
         // Usamos BCRYPT con 12 rounds de costo y salt generado automaticamente
@@ -36,7 +38,15 @@ class Password
             'cost' => self::PASSWORD_BCRYPT_COST,
         ]);
 
-        $this->hash = $hash;
+        return new self($hash);
+    }
+
+    public static function fromHash(string $hash): self {
+        if( strlen($hash) != 60 || !preg_match('/^\$2y\$/', $hash )) {
+            throw new \InvalidArgumentException('Argument is not a hash');
+        }
+
+        return new self($hash);
     }
 
     public function compare(string $other): bool

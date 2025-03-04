@@ -25,4 +25,8 @@ class Email
             throw new \InvalidArgumentException("Email cannot be empty");
         }
     }
+
+    function __toString(): string {
+        return $this->email;
+    }
 }
