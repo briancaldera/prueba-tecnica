@@ -2,12 +2,11 @@
 
 use PHPUnit\Framework\TestCase;
 use App\ValueObjects\UserId;
-use \InvalidArgumentException;
 
 class UserIdTest extends TestCase {
     
     public function test_does_not_accept_negative_number() {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $userId = new UserId(-1000);
     }

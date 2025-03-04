@@ -7,26 +7,26 @@ class PasswordTest extends TestCase {
     public function test_cannot_be_empty() {
         $this->expectException(\InvalidArgumentException::class);
 
-        $password = new Password("");
+        $password = Password::fromPassword("");
     }
 
     public function test_cannot_be_less_than_12_characters() {
         $this->expectException(\InvalidArgumentException::class);
 
-        $password = new Password("example");
+        $password = Password::fromPassword("example");
     }
 
     public function test_cannot_be_more_than_100_characters() {
         $this->expectException(\InvalidArgumentException::class);
 
-        $password = new Password('jU58Tx6cqqxqQLrTFKBASortMjnSQAbTQgJd9F5uVbvSsdESeVuoFpElDq0BsBJlHwzCNGP20a14wbkVbjNplqJH2jGhf2TJaoZ20a14wbkVbjNplqJH2jGhf2TJaoZ');
+        $password = Password::fromPassword('jU58Tx6cqqxqQLrTFKBASortMjnSQAbTQgJd9F5uVbvSsdESeVuoFpElDq0BsBJlHwzCNGP20a14wbkVbjNplqJH2jGhf2TJaoZ20a14wbkVbjNplqJH2jGhf2TJaoZ');
     }
 
     public function test_password_is_hashed_with_BCRYPT() {
 
         $text = 'myC00lP4ssword123+';
 
-        $password = new Password($text);
+        $password = Password::fromPassword($text);
 
         $this->assertNotEquals($text, $password->hash);
         $this->stringStartsWith('$2y')->evaluate($password->hash);
@@ -35,7 +35,7 @@ class PasswordTest extends TestCase {
     public function test_password_can_be_compared_to_a_string() {
         $text = 'myC00lP4ssword123+';
 
-        $password = new Password($text);
+        $password = Password::fromPassword($text);
 
         $this->assertTrue($password->compare('myC00lP4ssword123+'));
     }
@@ -43,7 +43,7 @@ class PasswordTest extends TestCase {
     public function test_password_rejects_different_strings() {
         $text = 'myC00lP4ssword123+';
 
-        $password = new Password($text);
+        $password = Password::fromPassword($text);
 
         $this->assertFalse($password->compare('myC00lP4ssword'));
     }
@@ -53,7 +53,7 @@ class PasswordTest extends TestCase {
 
         $text = 'myfulllowercasepassword123+';
 
-        $password = new Password($text);
+        $password = Password::fromPassword($text);
     }
 
     public function test_password_rejects_if_missing_lowercase() {
@@ -61,7 +61,7 @@ class PasswordTest extends TestCase {
 
         $text = 'MYFULLUPPERCASEPASSWORD123+';
 
-        $password = new Password($text);
+        $password = Password::fromPassword($text);
     }
 
     public function test_password_rejects_if_missing_number() {
@@ -69,7 +69,7 @@ class PasswordTest extends TestCase {
 
         $text = 'myAlphaPassword=';
 
-        $password = new Password($text);
+        $password = Password::fromPassword($text);
     }
 
     public function test_password_rejects_if_missing_symbol() {
@@ -77,6 +77,6 @@ class PasswordTest extends TestCase {
 
         $text = 'myC00lP4ssword';
 
-        $password = new Password($text);
+        $password = Password::fromPassword($text);
     }
 }
