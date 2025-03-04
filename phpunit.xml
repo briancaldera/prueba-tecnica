@@ -16,6 +16,9 @@
         <include>
             <directory>app</directory>
         </include>
+        <include>
+            <directory>db</directory>
+        </include>
     </source>
     <php>
     </php>

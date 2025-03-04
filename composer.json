@@ -6,7 +6,7 @@
     },
     "autoload": {
         "classmap": [
-            "app/"
+            "app/", "db/"
         ]
     },
     "require-dev": {
