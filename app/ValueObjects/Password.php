@@ -1,6 +1,7 @@
 <?php
 
 namespace App\ValueObjects;
+use App\Exceptions\WeakPasswordException;
 
 class Password
 {
@@ -18,19 +19,19 @@ class Password
         $password = trim($password);
 
         if ($password === "") {
-            throw new \InvalidArgumentException("Password cannot be empty");
+            throw new WeakPasswordException("Password cannot be empty");
         }
 
-        if (strlen($password) < 12) {
-            throw new \InvalidArgumentException("Password must be at least 12 characters long");
+        if (strlen($password) < 8) {
+            throw new WeakPasswordException("Password must be at least 8 characters long");
         }
 
         if (strlen($password) > 100) {
-            throw new \InvalidArgumentException("Password cannot be longer than 100 characters");
+            throw new WeakPasswordException("Password cannot be longer than 100 characters");
         }
 
-        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,100}$/', $password)) {
-            throw new \InvalidArgumentException("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character");
+        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,100}$/', $password)) {
+            throw new WeakPasswordException("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character");
         }
 
         // Usamos BCRYPT con 12 rounds de costo y salt generado automaticamente

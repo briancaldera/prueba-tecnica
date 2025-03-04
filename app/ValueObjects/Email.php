@@ -2,6 +2,8 @@
 
 namespace App\ValueObjects;
 
+use App\Exceptions\InvalidEmailException;
+
 class Email
 {
     public readonly string $email;
@@ -18,11 +20,11 @@ class Email
     private static function validate(string $email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException("Invalid email address");
+            throw new InvalidEmailException("Invalid email address");
         }
 
         if (empty($email)) {
-            throw new \InvalidArgumentException("Email cannot be empty");
+            throw new InvalidEmailException("Email cannot be empty");
         }
     }
 

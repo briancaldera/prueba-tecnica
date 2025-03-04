@@ -2,22 +2,23 @@
 
 use PHPUnit\Framework\TestCase;
 use App\ValueObjects\Password;
+use App\Exceptions\WeakPasswordException;
 
 class PasswordTest extends TestCase {
-    public function test_cannot_be_empty() {
-        $this->expectException(\InvalidArgumentException::class);
+    public function test_password_cannot_be_empty() {
+        $this->expectException(WeakPasswordException::class);
 
         $password = Password::fromPassword("");
     }
 
-    public function test_cannot_be_less_than_12_characters() {
-        $this->expectException(\InvalidArgumentException::class);
+    public function test_password_cannot_be_less_than_8_characters() {
+        $this->expectException(WeakPasswordException::class);
 
         $password = Password::fromPassword("example");
     }
 
-    public function test_cannot_be_more_than_100_characters() {
-        $this->expectException(\InvalidArgumentException::class);
+    public function test_password_cannot_be_more_than_100_characters() {
+        $this->expectException(WeakPasswordException::class);
 
         $password = Password::fromPassword('jU58Tx6cqqxqQLrTFKBASortMjnSQAbTQgJd9F5uVbvSsdESeVuoFpElDq0BsBJlHwzCNGP20a14wbkVbjNplqJH2jGhf2TJaoZ20a14wbkVbjNplqJH2jGhf2TJaoZ');
     }
@@ -49,7 +50,7 @@ class PasswordTest extends TestCase {
     }
 
     public function test_password_rejects_if_missing_uppercase() {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(WeakPasswordException::class);
 
         $text = 'myfulllowercasepassword123+';
 
@@ -57,7 +58,7 @@ class PasswordTest extends TestCase {
     }
 
     public function test_password_rejects_if_missing_lowercase() {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(WeakPasswordException::class);
 
         $text = 'MYFULLUPPERCASEPASSWORD123+';
 
@@ -65,7 +66,7 @@ class PasswordTest extends TestCase {
     }
 
     public function test_password_rejects_if_missing_number() {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(WeakPasswordException::class);
 
         $text = 'myAlphaPassword=';
 
@@ -73,7 +74,7 @@ class PasswordTest extends TestCase {
     }
 
     public function test_password_rejects_if_missing_symbol() {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(WeakPasswordException::class);
 
         $text = 'myC00lP4ssword';
 
