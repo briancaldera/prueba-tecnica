@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\DTOs\RegisterUserRequest;
+use App\Events\EventBus;
+use App\Events\UserRegisteredEvent;
 use App\Models\User;
 use App\Repositories\DoctrineUserRepository;
 use App\Repositories\UserRepositoryInterface;
@@ -10,12 +12,15 @@ use App\ValueObjects\Email;
 use App\ValueObjects\Name;
 use App\ValueObjects\Password;
 use App\DTOs\UserResponseDTO;
+use App\Exceptions\UserAlreadyExistsException;
 
 class UserService implements UserServiceInterface
 {
 
     function __construct(
         protected UserRepositoryInterface $userRepository = new DoctrineUserRepository(),
+        protected EmailService $emailService = new EmailService(),
+        protected EventBus $eventBus = new EventBus(),
     ) {
 
     }
@@ -29,7 +34,13 @@ class UserService implements UserServiceInterface
             createdAt: new \DateTimeImmutable('now')
         );
 
+        if ($this->emailService->emailExists($user->email)) {
+            throw new UserAlreadyExistsException('User already exists');
+        }
+
         $this->userRepository->save($user);
+
+        $this->eventBus->dispatch(new UserRegisteredEvent($user));
 
         $res = new UserResponseDTO(
             id: $user->id->id,
