@@ -12,7 +12,7 @@ class EmailService implements EmailServiceInterface
     {
         $em = DoctrineConnection::getEntityManager();
 
-        $query = $em->createQuery('SELECT COUNT(*) FROM Db\Doctrine\DTO\UserDTO WHERE email = ?1');
+        $query = $em->createQuery('SELECT COUNT(u.email) FROM Db\Doctrine\DTO\UserDTO u WHERE u.email = ?1');
         $query->setParameter(1, $email->email);
 
         $result = $query->getSingleScalarResult();

@@ -19,12 +19,12 @@ class Email
 
     private static function validate(string $email)
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidEmailException("Invalid email address");
-        }
-
         if (empty($email)) {
             throw new InvalidEmailException("Email cannot be empty");
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidEmailException("Invalid email address");
         }
     }
 

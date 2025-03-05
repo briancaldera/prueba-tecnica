@@ -13,13 +13,15 @@ use App\ValueObjects\Name;
 use App\ValueObjects\Password;
 use App\DTOs\UserResponseDTO;
 use App\Exceptions\UserAlreadyExistsException;
+use App\Services\UserServiceInterface;
+use App\Services\EmailServiceInterface;
+use App\Services\EmailService;
 
 class UserService implements UserServiceInterface
 {
-
     function __construct(
         protected UserRepositoryInterface $userRepository = new DoctrineUserRepository(),
-        protected EmailService $emailService = new EmailService(),
+        protected EmailServiceInterface $emailService = new EmailService(),
         protected EventBus $eventBus = new EventBus(),
     ) {
 

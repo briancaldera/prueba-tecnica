@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./vendor/bin/phpunit --testdox tests
+./vendor/bin/phpunit --testdox --display-phpunit-deprecations tests
