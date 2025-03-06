@@ -19,12 +19,12 @@ use App\Services\EmailService;
 
 class UserService implements UserServiceInterface
 {
+    protected EventBus $eventBus;
     function __construct(
         protected UserRepositoryInterface $userRepository = new DoctrineUserRepository(),
         protected EmailServiceInterface $emailService = new EmailService(),
-        protected EventBus $eventBus = new EventBus(),
     ) {
-
+        $this->eventBus = EventBus::getInstance();
     }
 
     public function RegisterUserUseCase(RegisterUserRequest $request): UserResponseDTO

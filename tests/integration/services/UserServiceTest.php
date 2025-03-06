@@ -7,12 +7,19 @@ use PHPUnit\Framework\TestCase;
 use App\Services\UserService;
 use App\DTOs\RegisterUserRequest;
 use Db\Doctrine\Utils\TestUtils;
+use App\Events\Listeners\SendEmailListener;
+use App\Events\EventBus;
 
-class UserServiceTest extends TestCase {
+class UserServiceTest extends TestCase
+{
 
     protected function setUp(): void
     {
-        
+        $emailListener = SendEmailListener::getInstance();
+
+        $eventBus = EventBus::getInstance();
+
+        $eventBus->registerListener('user-registered', $emailListener);
     }
 
     protected function tearDown(): void
@@ -20,7 +27,8 @@ class UserServiceTest extends TestCase {
         TestUtils::wipeTable('users');
     }
 
-    public function test_service_registers_user() {
+    public function test_service_registers_user()
+    {
         // Arrange
         $service = new UserService();
 
@@ -37,7 +45,8 @@ class UserServiceTest extends TestCase {
         $this->assertObjectHasProperty('createdAt', $result);
     }
 
-    public function test_service_rejects_duplicated_email() {
+    public function test_service_rejects_duplicated_email()
+    {
         // Arrange
         $this->expectException(UserAlreadyExistsException::class);
 
