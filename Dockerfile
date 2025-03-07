@@ -26,8 +26,6 @@ COPY . /var/www/html/
 
 RUN composer install
 
-RUN scripts/migrate.sh
-
 EXPOSE 9000
 
 CMD ["php-fpm"]
