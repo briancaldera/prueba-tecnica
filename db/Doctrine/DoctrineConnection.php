@@ -7,7 +7,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Configuration;
-use App\Utils\FileUtils;
 
 final class DoctrineConnection
 {
@@ -25,6 +24,8 @@ final class DoctrineConnection
 
             self::$config = $config;
 
+            // Esto debería estar en un archivo .env aparte o fuera del codebase
+            // Pero por simplicidad...
             $connectionsParams = [
                 'driver' => 'pdo_mysql',
                 'dbname' => 'prueba-tecnica-db',

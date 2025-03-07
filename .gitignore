@@ -1,3 +1,5 @@
-.env
+# Por simplicidad vamos a permitir que el .env esté en el repositorio
+# NO HACER ESTO EN UN ENTORNO REAL 🚫🚫🚫
+#.env
 vendor/
 .phpunit.result.cache
