@@ -2,7 +2,6 @@
 
 use App\DTOs\UserResponseDTO;
 use App\Exceptions\UserAlreadyExistsException;
-use App\Repositories\UserRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use App\Services\UserService;
 use App\DTOs\RegisterUserRequest;
@@ -39,9 +38,7 @@ class UserServiceTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(UserResponseDTO::class, $result);
-        $this->assertObjectHasProperty('id', $result);
-        $this->assertObjectHasProperty('name', $result);
-        $this->assertObjectHasProperty('email', $result);
+        $this->assertObjectHasProperty('userId', $result);
         $this->assertObjectHasProperty('createdAt', $result);
     }
 

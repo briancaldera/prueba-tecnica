@@ -45,9 +45,8 @@ class UserService implements UserServiceInterface
         $this->eventBus->dispatch(new UserRegisteredEvent($user));
 
         $res = new UserResponseDTO(
-            id: $user->id->id,
-            name: $user->name->name,
-            email: $user->email->email,
+            userId: $user->id->id,
+            message: 'Usuario creado exitosamente',
             createdAt: $user->createdAt,
         );
 

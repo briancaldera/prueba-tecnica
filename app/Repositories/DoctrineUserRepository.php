@@ -46,6 +46,10 @@ class DoctrineUserRepository implements UserRepositoryInterface
         $em = $this->getEntityManager();
         $userDTO = $em->find(UserDTO::class, $id->id);
 
+        if ($userDTO === null) {
+            return null;
+        }
+
         $user = new User(
             id: new UserId($userDTO->id),
             name: new Name($userDTO->name),
@@ -63,7 +67,8 @@ class DoctrineUserRepository implements UserRepositoryInterface
 
         try {
             $em->beginTransaction();
-            $em->remove($this->findById($id));
+            $userDTO = $em->find(UserDTO::class, $id->id);
+            $em->remove($userDTO);
             $em->flush();
             $em->commit();
         } catch (\Throwable $th) {

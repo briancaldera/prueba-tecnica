@@ -5,9 +5,8 @@ namespace App\DTOs;
 class UserResponseDTO
 {
     function __construct(
-        public readonly int $id,
-        public readonly string $name,
-        public readonly string $email,
+        public readonly int $userId,
+        public readonly string $message,
         public readonly \DateTimeImmutable $createdAt,
     ) {
     }
@@ -15,9 +14,8 @@ class UserResponseDTO
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
+            'user_id' => $this->userId,
+            'message' => $this->message,
             'createdAt' => $this->createdAt->format(\DateTimeImmutable::ATOM),
         ];
     }
