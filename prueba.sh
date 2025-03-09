@@ -24,6 +24,6 @@ then
 
 else
 
-    echo "Opcion no valida"
+    echo "Opción no válida"
 
 fi

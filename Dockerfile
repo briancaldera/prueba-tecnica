@@ -16,11 +16,7 @@ RUN apk update && apk add --no-cache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql zip
 
-    
 COPY --from=composer/composer:2-bin /composer /usr/bin/composer
-
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup -u 1000
-USER appuser
     
 COPY . /var/www/html/
 

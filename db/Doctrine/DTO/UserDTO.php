@@ -14,7 +14,7 @@ final class UserDTO {
         public private(set) ?int $id,
         #[ORM\Column(type:'string')]
         public private(set) string $name,
-        #[ORM\Column(type:'string')]
+        #[ORM\Column(type:'string', unique: true)]
         public private(set) string $email,
         #[ORM\Column(type:'string')]
         public private(set) string $password,
